@@ -56,3 +56,4 @@ public class MainActivity extends Activity {
     }
 }
 ```
+[Android常见漏洞之本地拒绝服务漏洞](https://bbs.ichunqiu.com/thread-38078-1-1.html)
